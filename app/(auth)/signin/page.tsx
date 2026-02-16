@@ -31,8 +31,16 @@ export default function SignInPage() {
     try {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: "select_account" });
-      await signInWithPopup(auth, provider);
-      router.replace("/account");
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      const onboardingComplete = localStorage.getItem(`onboarding_${user.uid}`);
+
+      if (!onboardingComplete) {
+        router.replace("/onboarding");
+      } else {
+        router.replace("/account");
+      }
     } catch (e: unknown) {
       const error = e as { code?: string; message?: string };
       const msg =

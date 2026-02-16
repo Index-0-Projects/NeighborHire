@@ -11,6 +11,8 @@ export default function AccountPage() {
   const [loading, setLoading] = useState(true);
   const [signingOut, setSigningOut] = useState(false);
 
+  const role = localStorage.getItem(`role_${user?.uid}`);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (!firebaseUser) {
@@ -123,12 +125,9 @@ export default function AccountPage() {
               Go to home
             </button>
 
-            <button
-              onClick={() => console.log("Continue onboarding")}
-              className="w-full sm:w-auto rounded-xl border border-white/10 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/15"
-            >
-              Continue onboarding
-            </button>
+            <p className="text-white/70 mt-2">
+              Role: {role === "poster" ? "Job Poster" : "Job Seeker"}
+            </p>
           </div>
         </div>
       </div>
